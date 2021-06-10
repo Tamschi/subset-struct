@@ -25,12 +25,17 @@ resolver = "2"
 publish = false
 
 [lib]
-proc-maro = true
+proc-macro = true
 
 [badges]
 is-it-maintained-issue-resolution = { repository = "Tamschi/subset-struct" }
 is-it-maintained-open-issues = { repository = "Tamschi/subset-struct" }
 maintenance = { status = "experimental" } # This may differ between branches.
+
+[dependencies]
+proc-macro2 = "1.0.27"
+syn = "1.0.72"
+tap = "1.0.1"
 
 [dev-dependencies]
 cargo-husky = "1.5.0"
@@ -38,6 +43,3 @@ doc-comment = "0.3.3"
 git_info = "0.1.2"
 version-sync = "0.9.1"
 wasm-bindgen-test = "0.3.24"
-
-[dependencies]
-syn = "1.0.72"
