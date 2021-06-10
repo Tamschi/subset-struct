@@ -85,7 +85,7 @@ impl AttributeParameter {
 									params = group.stream();
 									break Paren(group.span());
 								}
-								Delimiter::None => group=gr,
+								Delimiter::None => group = gr,
 								Delimiter::Brace => todo!(),
 								Delimiter::Bracket => todo!(),
 							},
