@@ -1,26 +1,26 @@
-# TODO_CRATE_NAME
+# subset-struct
 
-[![Lib.rs](https://img.shields.io/badge/Lib.rs-*-84f)](https://lib.rs/crates/TODO_CRATE_NAME)
-[![Crates.io](https://img.shields.io/crates/v/TODO_CRATE_NAME)](https://crates.io/crates/TODO_CRATE_NAME)
-[![Docs.rs](https://docs.rs/TODO_CRATE_NAME/badge.svg)](https://docs.rs/TODO_CRATE_NAME)
+[![Lib.rs](https://img.shields.io/badge/Lib.rs-*-84f)](https://lib.rs/crates/subset-struct)
+[![Crates.io](https://img.shields.io/crates/v/subset-struct)](https://crates.io/crates/subset-struct)
+[![Docs.rs](https://docs.rs/subset-struct/badge.svg)](https://docs.rs/subset-struct)
 
 ![Rust 1.51](https://img.shields.io/static/v1?logo=Rust&label=&message=1.51&color=grey)
-[![CI](https://github.com/Tamschi/TODO_CRATE_NAME/workflows/CI/badge.svg?branch=develop)](https://github.com/Tamschi/TODO_CRATE_NAME/actions?query=workflow%3ACI+branch%3Adevelop)
-![Crates.io - License](https://img.shields.io/crates/l/TODO_CRATE_NAME/0.0.1)
+[![CI](https://github.com/Tamschi/subset-struct/workflows/CI/badge.svg?branch=develop)](https://github.com/Tamschi/subset-struct/actions?query=workflow%3ACI+branch%3Adevelop)
+![Crates.io - License](https://img.shields.io/crates/l/subset-struct/0.0.1)
 
-[![GitHub](https://img.shields.io/static/v1?logo=GitHub&label=&message=%20&color=grey)](https://github.com/Tamschi/TODO_CRATE_NAME)
-[![open issues](https://img.shields.io/github/issues-raw/Tamschi/TODO_CRATE_NAME)](https://github.com/Tamschi/TODO_CRATE_NAME/issues)
-[![open pull requests](https://img.shields.io/github/issues-pr-raw/Tamschi/TODO_CRATE_NAME)](https://github.com/Tamschi/TODO_CRATE_NAME/pulls)
-[![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/TODO_CRATE_NAME.svg)](https://web.crev.dev/rust-reviews/crate/TODO_CRATE_NAME/)
+[![GitHub](https://img.shields.io/static/v1?logo=GitHub&label=&message=%20&color=grey)](https://github.com/Tamschi/subset-struct)
+[![open issues](https://img.shields.io/github/issues-raw/Tamschi/subset-struct)](https://github.com/Tamschi/subset-struct/issues)
+[![open pull requests](https://img.shields.io/github/issues-pr-raw/Tamschi/subset-struct)](https://github.com/Tamschi/subset-struct/pulls)
+[![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/subset-struct.svg)](https://web.crev.dev/rust-reviews/crate/subset-struct/)
 
-TODO_README_DESCRIPTION
+Convenient and robust subset struct generation, for example for redacting a public API.
 
 ## Installation
 
 Please use [cargo-edit](https://crates.io/crates/cargo-edit) to always add the latest version of this library:
 
 ```cmd
-cargo add TODO_CRATE_NAME
+cargo add subset-struct
 ```
 
 ## Example
@@ -52,7 +52,7 @@ dual licensed as above, without any additional terms or conditions.
 
 ## Versioning
 
-`TODO_CRATE_NAME` strictly follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html) with the following exceptions:
+`subset-struct` strictly follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html) with the following exceptions:
 
 * The minor version will not reset to 0 on major version changes (except for v1).  
 Consider it the global feature level.

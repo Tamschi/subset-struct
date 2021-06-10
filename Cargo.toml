@@ -1,15 +1,15 @@
 [package]
-name = "TODO_CRATE_NAME"
+name = "subset-struct"
 version = "0.0.1"
 authors = ["Tamme Schichler <tamme@schichler.dev>"]
 edition = "2018"
-description = "TODO_DESCRIPTION"
+description = "Convenient and robust subset struct generation, for example for redacting a public API."
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/Tamschi/TODO_CRATE_NAME"
-homepage = "https://github.com/Tamschi/TODO_CRATE_NAME/tree/v0.0.1"
-documentation = "https://docs.rs/TODO_CRATE_NAME/0.0.1"
-keywords = [] #TODO
-categories = [] #TODO
+repository = "https://github.com/Tamschi/subset-struct"
+homepage = "https://github.com/Tamschi/subset-struct/tree/v0.0.1"
+documentation = "https://docs.rs/subset-struct/0.0.1"
+keywords = ["struct", "redact", "subset", "attribute"]
+categories = ["rust-patterns", "no-std"]
 readme = "README.md"
 include = [
 	"**/*.rs",
@@ -24,9 +24,12 @@ include = [
 resolver = "2"
 publish = false
 
+[lib]
+proc-maro = true
+
 [badges]
-is-it-maintained-issue-resolution = { repository = "Tamschi/TODO_CRATE_NAME" }
-is-it-maintained-open-issues = { repository = "Tamschi/TODO_CRATE_NAME" }
+is-it-maintained-issue-resolution = { repository = "Tamschi/subset-struct" }
+is-it-maintained-open-issues = { repository = "Tamschi/subset-struct" }
 maintenance = { status = "experimental" } # This may differ between branches.
 
 [dev-dependencies]
@@ -35,3 +38,6 @@ doc-comment = "0.3.3"
 git_info = "0.1.2"
 version-sync = "0.9.1"
 wasm-bindgen-test = "0.3.24"
+
+[dependencies]
+syn = "1.0.72"
