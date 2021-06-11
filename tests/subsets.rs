@@ -1,8 +1,12 @@
 use subset_struct::subset;
 
-#[subset]
+#[subset {
+	default(aa aa,,,),
+	default(),
+	{+} -> Hello, // The `+` is invalid there.
+}]
 pub struct Set {
-	a: (),
-	b: (),
-	c: (),
+	pub a: (),
+	pub b: (),
+	pub c: (),
 }

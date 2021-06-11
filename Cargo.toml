@@ -33,6 +33,8 @@ is-it-maintained-open-issues = { repository = "Tamschi/subset-struct" }
 maintenance = { status = "experimental" } # This may differ between branches.
 
 [dependencies]
+call2-for-syn = "2.0.3"
+debugless-unwrap = "0.0.4"
 proc-macro2 = "1.0.27"
 syn = "1.0.72"
 tap = "1.0.1"
