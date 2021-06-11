@@ -3,7 +3,7 @@ use subset_struct::subset;
 #[subset {
 	default(aa aa,,,),
 	default(),
-	{+} -> Hello, // The `+` is invalid there.
+	{} -> Hello,
 }]
 pub struct Set {
 	pub a: (),

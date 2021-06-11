@@ -10,21 +10,33 @@ use call2_for_syn::call2_strict;
 use debugless_unwrap::DebuglessUnwrap;
 use proc_macro::TokenStream as TokenStream1;
 use proc_macro2::{Delimiter, Group, Span, TokenStream, TokenTree};
-use std::{fmt::Display, iter};
+use quote::quote_spanned;
+use std::{
+	fmt::Display,
+	iter,
+	sync::{atomic::AtomicBool, Once},
+};
 use syn::{
-	Error, Ident, NestedMeta, Result, Token,
-	__private::quote::quote_spanned,
-	parenthesized,
+	braced, parenthesized,
 	parse::{Parse, ParseBuffer, ParseStream, Parser, Peek},
 	parse_macro_input,
 	punctuated::Punctuated,
 	spanned::Spanned,
 	token::{Brace, CustomToken, Paren},
+	Error, Ident, NestedMeta, Result, Token,
 };
 use tap::Pipe;
 
+static HOOK_PANIC: Once = Once::new();
+
 #[proc_macro_attribute]
 pub fn subset(attr_params: TokenStream1, item: TokenStream1) -> TokenStream1 {
+	HOOK_PANIC.call_once(|| {
+		std::panic::set_hook(Box::new(|panic_info| {
+			eprintln!("Macro panic: {}", panic_info)
+		}))
+	});
+
 	let attr_args = parse_macro_input!(attr_params as TokenStream);
 	let item = parse_macro_input!(item as TokenStream);
 
@@ -36,11 +48,9 @@ pub fn subset(attr_params: TokenStream1, item: TokenStream1) -> TokenStream1 {
 
 	//TODO below
 	let mut output = TokenStream::new();
-	output.extend(
-		errors
-			.into_iter()
-			.flat_map(|error| error.to_compile_error()),
-	);
+	for error in errors {
+		output.extend(error.to_compile_error())
+	}
 	output.extend(item);
 	output.into()
 }
@@ -67,6 +77,7 @@ enum AttributeParameter {
 		name: Ident,
 		attr_paren: Paren,
 		attrs: Punctuated<TokenStream, Token![,]>,
+		end_span: Span,
 	},
 	Invalid(TokenTree),
 }
@@ -76,11 +87,8 @@ impl AttributeParameter {
 			AttributeParameter::Default {
 				attr_paren: Paren { span },
 				..
-			}
-			| AttributeParameter::Subset {
-				attr_paren: Paren { span },
-				..
 			} => *span,
+			AttributeParameter::Subset { end_span, .. } => *end_span,
 			AttributeParameter::Invalid(tt) => tt.span(),
 		}
 	}
@@ -150,16 +158,43 @@ impl AttributeParameter {
 			}
 		} else if input.peek(Brace) || input.peek(Ident) {
 			let mut real_brace_span = None;
+			let mut conversions: Option<TokenStream> = None;
 			let name_span;
 			let mut attrs: Option<TokenStream> = None;
+			let mut end_span = input.span();
 			Self::Subset {
 				conv_brace: if input.peek(Brace) {
-					todo!("conv brace")
+					(|| -> Result<_> {
+						let content;
+						let brace = braced!(content in input);
+						conversions = (&content).parse::<TokenStream>().unwrap().pipe(Some);
+						real_brace_span = Some(brace.span);
+						end_span = brace.span;
+						Ok(brace)
+					})()
+					.unwrap()
 				} else {
-					Brace(input.span())
+					Parser::parse2(
+						|fake: ParseStream| {
+							let content;
+							let brace = braced!(content in fake);
+							conversions = content.parse::<TokenStream>().unwrap().pipe(Some);
+							Ok(brace)
+						},
+						quote_spanned!(input.span()=> {}),
+					)
+					.unwrap()
 				},
-				conversions: todo!("conversions"),
+				conversions: {
+					let mut punctuated = Punctuated::new();
+					for token in conversions.unwrap() {
+						todo!("conversions")
+					}
+					punctuated
+				},
 				r_arrow: if let Some(r_arrow) = input.parse().unwrap() {
+					let r_arrow: Token![->] = r_arrow;
+					end_span = r_arrow.span();
 					r_arrow
 				} else {
 					if real_brace_span.is_some() {
@@ -170,10 +205,11 @@ impl AttributeParameter {
 				name: if input.peek(Ident) {
 					let name: Ident = input.parse().unwrap();
 					name_span = name.span();
+					end_span = name_span.span();
 					name
 				} else {
 					errors.push(Error::new(input.span(), "Expected identifier"));
-					name_span = real_brace_span.unwrap();
+					name_span = real_brace_span.unwrap_or_else(|| input.span());
 					Ident::new("__", name_span)
 				},
 				attr_paren: {
@@ -182,6 +218,7 @@ impl AttributeParameter {
 							let content;
 							let paren = parenthesized!(content in input);
 							attrs = (&content).parse::<TokenStream>().unwrap().pipe(Some);
+							end_span = paren.span;
 							Ok(paren)
 						})()
 						.unwrap()
@@ -213,6 +250,7 @@ impl AttributeParameter {
 					}
 					punctuated
 				},
+				end_span,
 			}
 		} else {
 			errors.push(Error::new(

@@ -210,6 +210,7 @@ dependencies = [
  "doc-comment",
  "git_info",
  "proc-macro2",
+ "quote",
  "syn",
  "tap",
  "version-sync",
