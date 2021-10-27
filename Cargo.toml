@@ -35,7 +35,7 @@ maintenance = { status = "experimental" } # This may differ between branches.
 [dependencies]
 call2-for-syn = "2.0.3"
 debugless-unwrap = "0.0.4"
-proc-macro2 = "1.0.28"
+proc-macro2 = "1.0.32"
 quote = "1.0.9"
 syn = "1.0.72"
 tap = "1.0.1"
